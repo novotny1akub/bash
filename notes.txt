@@ -1,0 +1,142 @@
+1) NAVIGATING THE FILE SYSTEM
+    pwd outputs the name of the current working directory.
+    ls lists all files and directories in the working directory.
+    cd switches you into the directory you specify.
+    mkdir creates a new directory in the working directory.
+    touch creates a new file inside the working directory.
+    clear clears the terminal
+    tab autocompletes the name of a file or directory
+    ↑ and ↓ allow you to cycle through previous commands
+    
+    ls
+    pwd
+    cd
+    cd folder/another_folder
+    cd ..
+    mkdir folder_to_be_created
+    mkdir media/tv
+    touch keyboard.txt
+
+2) MANIPULATION
+    Options modify the behavior of commands:
+        ls -a lists all contents of a directory, including hidden files and directories
+        ls -l lists all contents in long format
+        ls -t orders files and directories by the time they were last modified
+        Multiple options can be used together, like ls -alt
+    From the command line, you can also copy, move, and remove files and directories:
+        cp copies files
+            cp source.txt destination.txt 
+            cp source.txt destination/
+            cp file1.txt file2.txt my_directory/ --> copies multiple files in a directory
+            cp * my_directory/
+            cp w*.txt my_directory/
+        mv moves and renames files
+            mv my_file.txt my_directory/
+            mv my_file_1.txt my_file_2.txt my_directory/
+            mv file_origin.txt file_renamed.txt
+        rm removes files
+            rm unwanted_file.txt
+        rm -r removes directories
+            rm -r unwanted_directory
+    Wildcards are useful for selecting groups of files and directories
+
+3) REDIRECTION
+    Redirection reroutes standard input, standard output, and standard error.
+    
+    The common redirection commands are:
+        > redirects standard output of a command to a file, overwriting previous content.
+            echo "Hello" > hello.txt
+            cat deserts.txt > forests.txt
+        >> redirects standard output of a command to a file, appending new content to old content.
+            cat deserts.txt >> forests.txt
+        < redirects standard input to a command.
+            cat < deserts.txt
+        | redirects standard output of a command to another command.
+            cat volcanoes.txt | wc
+            cat volcanoes.txt | wc | cat > islands.txt 
+    
+    A number of other commands are powerful when combined with redirection commands:
+        sort: sorts lines of text alphabetically.
+            sort continents.txt 
+        uniq: filters duplicate, adjacent lines of text.
+            uniq deserts.txt 
+        grep: searches for a text pattern and outputs it.
+            grep America continents.txt --> searches for the String America
+            grep -i America continents.txt --> case insensitive
+            grep -R Arctic /home/ccuser/workspace/geography --> all files in a directory
+        sed : searches for a text pattern, modifies it, and outputs it. It is similar to “find and replace.”
+            sed 's/snow/rain/' forests.txt
+                s: stands for “substitution.” It is always used when using sed for substitution
+                snow: the search string, or the text to find.
+                rain: the replacement string, or the text to add in place.
+            
+4) CONFIGURING THE NEVIRONMENT
+    The environment refers to the preferences and settings of the current user.
+    The nano editor is a command line text editor used to configure the environment.
+    ~/.bash_profile is where environment settings are stored. You can edit this file with nano.
+    Environment variables are variables that can be used across commands and programs and hold information about the environment.
+    
+    export VARIABLE="Value" sets and exports an environment variable.
+    USER is the name of the current user.
+    PS1 is the command prompt.
+    HOME is the home directory. It is usually not customized.
+    PATH returns a colon : separated list of file paths. It is customized in advanced cases.
+    env returns a list of environment variables. You can redirect the output, using grep to select the variable you want to see.
+
+5) BASH SCRIPTING
+    Any command that can be run in the terminal can be run in a bash script.
+    The beginning of your script file should start with #!/bin/bash on its own line.
+    The script files also need to have the “execute” permission to allow them to be run. To add this permission to a file with filename:
+        chmod +x script.sh
+    Variables are assigned using an equals sign with no space (greeting="hello").
+    Variables are accessed using a dollar sign (echo $greeting).
+    Conditionals use if, then, else, fi syntax.
+        if [ $index -lt 5 ]
+        then
+          echo $index
+        else
+          echo 5
+        fi
+    Three types of loops can be used: for, while, and until.
+        for word in $paragraph
+        do
+          echo $word
+        done
+        
+        while [ $index -lt 5 ]
+        do
+          echo $index
+          index=$((index + 1))
+        done
+    
+        until [ $index -eq 5 ]
+        do
+          echo $index
+          index=$((index + 1))
+        done
+    
+    Bash scripts use a unique set of comparison operators:
+        Equal: -eq
+        Not equal: -ne
+        Less than or equal: -le
+        Less than: -lt
+        Greater than or equal: -ge
+        Greater than: -gt
+        Is null: -z
+    When comparing strings, it is best practice to put the variable into quotes ("). This prevents errors if the variable is null or contains spaces.
+    The common operators for comparing strings are:
+        Equal: ==
+        Not equal: !=
+    Input arguments can be passed to a bash script after the script name, separated by spaces (myScript.sh “hello” “how are you”).
+    Input can be requested from the script user with the read keyword.
+        echo "Guess a number"
+        read number
+        echo "You guessed $number"
+        
+        saycolors red green blue --> bash command
+        for color in "$@"
+        do
+          echo $color
+        done
+    Aliases can be created in the .bashrc or .bash_profile using the alias keyword.
+        alias saycolors='./saycolors.sh'
